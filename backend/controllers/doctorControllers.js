@@ -202,7 +202,7 @@ const getQ = asyncHandler(async (req, res) => {
   const queue = await PatientQ.findOne({ doc_name });
   // console.log(queue)
   if (queue) {
-    res.send(queue.Patients[0]);
+    res.send(queue.Patients);
   } else {
     const doc = await PatientQ.create({
       doc_name: doc_name,

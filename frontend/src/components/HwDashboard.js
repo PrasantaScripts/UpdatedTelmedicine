@@ -42,7 +42,7 @@ const HwDashboard = () => {
           config
         );
         setQueue(data.Patients);
-        if (patientArr[0] === "None Found" || data.Patients.length === 0) {
+        if (patientArr[0] === "None Found" || data.Patients.length == 0) {
           return;
         } else {
           const arr = patientArr.filter((it, idx) => {

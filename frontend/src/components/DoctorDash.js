@@ -23,12 +23,11 @@ const DoctorDash = ({setPrevP,setShow,setPrescription,setPatient}) => {
             "Content-type":"application/json"
           },
         }
-        var today = new Date();
-        var from = new Date(2020,9,9);
-        var to = new Date(today.getFullYear(),today.getMonth(),parseInt(today.getDate())+1);
-        console.log(to)
-        const {data} = await axios.post('/api/patient/appointed',{doc_name,from,to},config);
-        
+        // var today = new Date();
+        // var from = new Date(2020,9,9);
+        // var to = new Date(today.getFullYear(),today.getMonth(),parseInt(today.getDate())+1);
+        // console.log(to)
+        const {data} = await axios.post('/api/doctor/getQ',{doc_name},config);
         
           if(data.length===0){
             setPatientArr(['None Found'])
@@ -51,11 +50,11 @@ const DoctorDash = ({setPrevP,setShow,setPrescription,setPatient}) => {
           }
           console.log(doc_name)
           const {data}= await axios.post('/api/doctor/getQ',{doc_name},config)
-          console.log(data.patientData.ticketId)
+          console.log(data)
           if(data){
             setMeet('START MEET')
-            localStorage.setItem('room',data.patientData.ticketId)
-            setCurrTID(data.patientData.ticketId);
+            localStorage.setItem('room',data[0].patientData.ticketId)
+            setCurrTID(data[0].patientData.ticketId);
           }
 
         }catch(e){

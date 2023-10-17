@@ -21,6 +21,7 @@ import FolderIcon from "@mui/icons-material/Folder";
 import Popup from "../components/showPresriptionPopup";
 import Popup1 from "../components/PrescriptionDetailsPopup";
 import { Tooltip } from "@mui/material";
+import axios from "axios";
 const socket = io.connect("http://localhost:5000");
 // const socket = io.connect("https://ssfservice.in/");
 
@@ -43,6 +44,10 @@ const Conference = () => {
   const para = useParams();
   const [id, setId] = useState(para.id);
   const history = useHistory();
+  const [doc_Name, setDoc_Name] = useState(
+    JSON.parse(localStorage.getItem("DoctorOnline")).name
+  );
+  const [queue, setQueue] = useState(["empty"]);
 
   useEffect(() => {
     // Create a new Peer instance
@@ -152,7 +157,7 @@ const Conference = () => {
     setMessage("");
   };
 
-  const endCall = () => {
+  const endCall = async () => {
     // Get the room ID from localStorage
     const room = localStorage.getItem("room");
     // Emit a "leave-room" event to the server with room and peer ID
@@ -161,12 +166,26 @@ const Conference = () => {
     // Disconnect the Peer instance
     peerInstance.current.disconnect();
 
-    // Get the doctor's name from localStorage
-    const doc_name = JSON.parse(localStorage.getItem("DoctorOnline")).name;
-    // Redirect the user to the prescription page with the specific ID
-    history.push("/prescription/" + id);
-    // Reload the window
-    window.location.reload();
+    try {
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+        },
+      };
+      const { data } = await axios.post(
+        "/api/doctor/popQ",
+        { doc_name: doc_Name },
+        config
+      );
+      console.log(data);
+      // Redirect the user to the prescription page with the specific ID
+      // history.push("/prescription/" + id);
+      history.push(`/doctor?DoctorName=${doc_Name}`);
+      // Reload the window
+      window.location.reload();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
@@ -284,6 +303,58 @@ const Conference = () => {
     }
   };
 
+  async function fetch1() {
+    const config = {
+      headers: {
+        "Content-type": "application/json",
+      },
+    };
+    try {
+      if (!doc_Name) {
+        console.log("no doc");
+        return;
+      }
+      var { data } = await axios.post(
+        "/api/doctor/fetchQ",
+        { doc_Name },
+        config
+      );
+      setQueue(data.Patients);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    fetch1();
+  }, [doc_Name]);
+
+  const modifyQ = async () => {
+    try {
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+        },
+      };
+      const doc_name = doc_Name;
+      console.log(doc_name);
+      // console.log(doc_name);
+      const { data } = await axios.post(
+        "/api/doctor/modifyQ",
+        { doc_name, queue },
+        config
+      );
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  // useEffect(() => {
+
+  //   modifyQ();
+
+  // }, [queue]);
+
   return (
     <div>
       <div className="header">
@@ -305,7 +376,8 @@ const Conference = () => {
                       className="options__button"
                       onClick={() => {
                         videoPause();
-                      }}>
+                      }}
+                    >
                       {" "}
                       <VideocamIcon
                         fontSize="large"
@@ -319,7 +391,8 @@ const Conference = () => {
                       className="options__button"
                       onClick={() => {
                         videoPause();
-                      }}>
+                      }}
+                    >
                       {" "}
                       <VideocamOffIcon
                         fontSize="large"
@@ -336,7 +409,8 @@ const Conference = () => {
                       className="options__button"
                       onClick={() => {
                         audioPause();
-                      }}>
+                      }}
+                    >
                       {" "}
                       <MicIcon fontSize="large" sx={{ width: "50px" }} />{" "}
                     </button>
@@ -347,7 +421,8 @@ const Conference = () => {
                       className="options__button"
                       onClick={() => {
                         audioPause();
-                      }}>
+                      }}
+                    >
                       {" "}
                       <MicOffIcon
                         fontSize="large"
@@ -363,7 +438,8 @@ const Conference = () => {
                     className="options__button"
                     onClick={() => {
                       endCall();
-                    }}>
+                    }}
+                  >
                     {" "}
                     <CallEndIcon fontSize="large" sx={{ width: "50px" }} />{" "}
                   </button>
@@ -375,7 +451,8 @@ const Conference = () => {
                     className="options__button"
                     onClick={() => {
                       setShow(1);
-                    }}>
+                    }}
+                  >
                     {" "}
                     <FolderIcon fontSize="large" sx={{ width: "50px" }} />{" "}
                   </button>
@@ -398,7 +475,8 @@ const Conference = () => {
                 <div
                   key={idx}
                   className="message"
-                  style={{ alignSelf: item.alignment }}>
+                  style={{ alignSelf: item.alignment }}
+                >
                   {item.message}
                 </div>
               );
@@ -420,7 +498,8 @@ const Conference = () => {
                 id="send"
                 className="options__button"
                 type="submit"
-                onClick={sendMessage}>
+                onClick={sendMessage}
+              >
                 <KeyboardArrowRightIcon
                   fontSize="large"
                   sx={{ width: "50px" }}

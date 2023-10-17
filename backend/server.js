@@ -1,6 +1,8 @@
 const express = require("express");
+const path = require("path");
+const __dirname1 = path.resolve();
 const dotenv = require("dotenv");
-dotenv.config({ path: "../.env" });
+dotenv.config({ path: path.resolve(__dirname, "./.env") });
 const connectDB = require("../backend/config/db");
 const adminRoutes = require("./routes/adminRoutes");
 const hwRoutes = require("./routes/hwRoutes");
@@ -10,7 +12,6 @@ const patientRoutes = require("./routes/PatientRoutes");
 const logRoutes = require("./routes/logRoutes");
 const prescriptionRoutes = require("./routes/prescriptionRoutes");
 const medicineRoutes = require("./routes/medicineRoutes");
-const path = require("path");
 // dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -65,7 +66,6 @@ app.use("/api/med", medicineRoutes);
 //     res.send("ok");
 // })
 
-const __dirname1 = path.resolve();
 console.log(__dirname1);
 if (process.env.Node_Env == "production") {
   app.use(express.static(path.join(__dirname1, "./backend/frontend/build")));
