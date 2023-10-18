@@ -17,34 +17,33 @@ const addPrescription = asyncHandler(async (req, res) => {
     patientData,
     dateMade,
     symptoms,
-
     diagnosis,
     medicines: arr,
-
     tests,
     other,
+    date,
   });
-  if (prescription) {
-    if (date) {
-      const patient = await Patient.findOneAndUpdate(
-        { "patientData.ticketId": id },
-        { appointedTime: date }
-      );
-      if (patient) {
-        res.status(201).json(patient);
-      } else {
-        res.send("failed");
-      }
-    } else {
-      const patient = await Patient.findOneAndUpdate(
-        { "patientData.ticketId": id },
-        { isVisited: "true" }
-      );
-    }
-    res.status(201).send("ok");
-  } else {
-    res.send("failed");
-  }
+  // if (prescription) {
+  //   if (date) {
+  //     const patient = await Patient.findOneAndUpdate(
+  //       { "patientData.ticketId": id },
+  //       { appointedTime: date }
+  //     );
+  //     if (patient) {
+  //       res.status(201).json(patient);
+  //     } else {
+  //       res.send("failed");
+  //     }
+  //   } else {
+  //     const patient = await Patient.findOneAndUpdate(
+  //       { "patientData.ticketId": id },
+  //       { isVisited: "true" }
+  //     );
+  //   }
+  //   res.status(201).send("ok");
+  // } else {
+  //   res.send("failed");
+  // }
 });
 
 const fetchPrescription = asyncHandler(async (req, res) => {
@@ -80,6 +79,7 @@ const exportTotalPrescription = asyncHandler(async (req, res) => {
         medicines,
         tests,
         other,
+        date,
       } = user;
 
       // Create an object to store Prescription details
@@ -92,6 +92,7 @@ const exportTotalPrescription = asyncHandler(async (req, res) => {
         // MEDICINES: medicines,
         TEST_GIVEN: tests,
         OTHER: other,
+        DATE: date,
       };
       medicines.forEach((med, index) => {
         PrescriptionDetails[`MEDICINE_${index + 1}_NAME`] = med.name;
@@ -114,6 +115,7 @@ const exportTotalPrescription = asyncHandler(async (req, res) => {
       "TEST_GIVEN",
       "CONTACT",
       "OTHER",
+      "NEXT-VISITED-DATE",
     ];
 
     userData[0].medicines.forEach((_, index) => {

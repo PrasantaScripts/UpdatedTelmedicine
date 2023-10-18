@@ -24,7 +24,8 @@ import "../pages/style.css";
 const PrescriptionDetails = ({ data, patient, setShow }) => {
   const printRef = useRef();
   console.log(data);
-  console.log(data.dateMade);
+  // console.log(data.date);
+  // console.log(data.id);
   console.log(patient);
 
   const currDate = new Date();
@@ -37,6 +38,13 @@ const PrescriptionDetails = ({ data, patient, setShow }) => {
     data.dateMade.slice(0, 4);
   // const dateMade = new Date(data.dateMade);
   // const formattedDate = dateMade.toISOString().replace(/:/g, "-");
+
+  const nextAppointedDate =
+    data.date.slice(8, 10) +
+    "/" +
+    data.date.slice(5, 7) +
+    "/" +
+    data.date.slice(0, 4);
 
   const handleDownloadPdf = async () => {
     const element = printRef.current;
@@ -563,6 +571,28 @@ const PrescriptionDetails = ({ data, patient, setShow }) => {
                 <i>No advice given</i>
               </Typography>
             )}
+          </Box>
+
+          <Box
+            display="flex"
+            sx={{
+              flexWrap: "wrap",
+              width: "100vw",
+              borderTop: "3px solid black ",
+              borderBottom: "3px solid black",
+              paddingBottom: "5px",
+              paddingTop: "10px",
+            }}>
+            <Box
+              sx={{
+                alignSelf: "flex-start",
+                marginLeft: "4vw",
+                marginBottom: "2vh",
+              }}>
+              <Typography sx={{ fontSize: "1.2rem" }}>
+                <b>Next Appointed Date: </b> <span> </span> {nextAppointedDate}
+              </Typography>
+            </Box>
           </Box>
         </Box>
 

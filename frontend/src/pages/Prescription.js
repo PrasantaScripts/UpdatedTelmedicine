@@ -58,17 +58,17 @@ const Prescription = () => {
 
   const [patient, setPatient] = useState({
     patientData: {
-      name: "afhajf;la",
-      id: "afhesdfhs",
+      name: "Loading",
+      id: "Loading",
     },
-    DOB: "1235",
+    DOB: "Loading",
     medical: {
-      height: "35",
-      weight: "35",
-      sbp: "43",
-      dbp: "35",
-      temperature: "13",
-      spo2: "23",
+      height: "Loading",
+      weight: "Loading",
+      sbp: "Loading",
+      dbp: "Loading",
+      temperature: "Loading",
+      spo2: "Loading",
     },
   });
 
@@ -134,9 +134,9 @@ const Prescription = () => {
         });
         // setSymptoms(str);
         console.log(str);
-        const s = localStorage.getItem("sympt");
-        symptomsVal.current.value = s + str;
-        setSymptoms(str + s);
+        const symptom = localStorage.getItem("sympt");
+        symptomsVal.current.value = symptom + str;
+        setSymptoms(str + symptom);
 
         // instructionVal.current.value = localStorage.getItem("instruction");
         // setInstructions(localStorage.getItem("instruction"));
@@ -153,7 +153,7 @@ const Prescription = () => {
         const a = JSON.parse(localStorage.getItem("arr"));
         setArray(a);
 
-        localStorage.setItem("sympt", str + s);
+        localStorage.setItem("sympt", str + symptom);
       } catch (error) {
         console.log(error);
       }

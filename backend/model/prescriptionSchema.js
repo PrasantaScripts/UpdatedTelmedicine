@@ -43,6 +43,9 @@ const prescriptionSchema = mongoose.Schema({
     other:{
         type:String,
     },
+    date:{
+        type:Date
+    }
 },{
     collection:'Prescription',
     timestamp:true,

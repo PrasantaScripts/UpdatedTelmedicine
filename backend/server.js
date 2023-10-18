@@ -2,7 +2,7 @@ const express = require("express");
 const path = require("path");
 const __dirname1 = path.resolve();
 const dotenv = require("dotenv");
-dotenv.config({ path: path.resolve(__dirname, "./.env") });
+dotenv.config({ path: path.resolve(__dirname, "../.env") });
 const connectDB = require("../backend/config/db");
 const adminRoutes = require("./routes/adminRoutes");
 const hwRoutes = require("./routes/hwRoutes");
