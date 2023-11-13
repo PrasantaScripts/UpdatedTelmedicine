@@ -1,0 +1,31 @@
+body{
+    /* background: linear-gradient(180deg,#3AAFA9,#84CEEB); */
+    background: linear-gradient(180deg, #3AAFA9 10%, #DEF2F1 90%);
+    height: 98vh;   
+}
+.cls{
+    color:#333333
+}
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 60%;
+  }
+  
+  td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+  }
+  th{
+    width: '50%';
+    align-items:center;
+    justify-content: center;
+  }
+  
+  tr:nth-child(even) {
+    background-color: #dddddd;
+  }
+  tr:nth-child(odd){
+    background-color: white;
+  }
