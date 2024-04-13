@@ -42,6 +42,6 @@ npm start
 
 PORT = "as wish".
 DB = " your mongo connection link"
-JWT_SECRET = 'Your jwt secret'
+JWT_SECRET = 'Contact author'
 
 
